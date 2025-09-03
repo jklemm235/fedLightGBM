@@ -19,14 +19,29 @@ class InitialState(AppState):
         client = FederatedLightGBMClient(config_file=config_path,
                                          num_clients=num_clients,
                                          input_path=input_path)
+
+        # local prediction/model output
         local_preds = None
+        metrics = None
         if client.test_data is not None:
             local_preds = client.predict(data=client.test_data,
                                          model=client.local_model)
+            assert local_preds is not None and client.test_y is not None
+            metrics = client.evaluate(local_preds, client.test_y)
+
         else:
             local_preds = client.predict(data=client.data,
                                          model=client.local_model)
-        if local_preds is not None:
-            local_preds.to_csv("predictions_local_model.csv")
+            assert local_preds is not None
+            metrics = client.evaluate(local_preds, client.y)
+        assert local_preds is not None and metrics is not None
+
+        # write local pred/metrics/model
+        local_preds.to_csv("predictions_local_model.csv")
+        metrics_json = metrics.to_json()
+        with open("metrics.json", "w") as f:
+            f.write(metrics_json)
+        client.local_model.save_model("local_model.txt")
+
         # TODO: implement the ensembling aka the whole fed learning logic
         return 'terminal'

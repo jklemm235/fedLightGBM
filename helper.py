@@ -1,6 +1,8 @@
 from typing import Optional, Union
 import os
 
+import json
+
 class Config:
     """Configuration for training/evaluation.
 
@@ -58,3 +60,14 @@ class Metrics:
         self.recall = recall
         self.f1_score = f1_score
         self.accuracy = accuracy
+
+    def to_dict(self) -> dict:
+        return {
+            "precision": self.precision,
+            "recall": self.recall,
+            "f1_score": self.f1_score,
+            "accuracy": self.accuracy
+        }
+
+    def to_json(self) -> str:
+        return json.dumps(self.to_dict())

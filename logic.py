@@ -89,8 +89,8 @@ class FederatedLightGBMClient:
 
     def evaluate(self, df: pd.DataFrame, y: pd.Series) -> Metrics:
         """
-        Given a dataframe with predictions in the predictions column and
-        true labels in the label column, compute and print evaluation metrics.
+        Given a dataframe with predictions in the predictions column the given true labels,
+        compute and print evaluation metrics.
         """
         if "prediction" not in df.columns:
             raise ValueError(f"Dataframe must contain 'prediction' column: {df.head()}")

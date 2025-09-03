@@ -1,3 +1,6 @@
 .idea
 venv
 *.pyc
+predictions*.csv
+metrics*.json
+*model*.txt
