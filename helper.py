@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Union
 
 class Config:
     """Configuration for training/evaluation.
@@ -16,16 +16,16 @@ class Config:
     testfile: Optional[str] = None
     separator: str = ','
     label_column: str = 'label'
-    id_column: Optional[str | int] = None
+    id_column: Optional[Union[str, int]] = None
     num_estimator: int = 100
     mode: str = "classification"
 
     def __init__(self,
                  trainfile: str,
-                 testfile: str,
+                 label_column: str,
+                 testfile: Optional[str] = None,
                  separator: str = ',',
-                 label_column: str = 'label',
-                 id_column: Optional[str] = None,
+                 id_column: Optional[Union[str, int]] = None,
                  num_estimator: int = 100,
                  mode: str = "classification") -> None:
         self.trainfile = trainfile
