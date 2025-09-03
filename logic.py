@@ -20,7 +20,18 @@ class FederatedLightGBMClient:
                 config_dict = yaml.safe_load(file)
             self.config = Config(**config_dict['boosting_tree'])
         except Exception as e:
-            raise ValueError(f"Error reading config file: {e}") from e
+            # try to open with .yml if it was .yaml and reverse
+            config_file_alt = ""
+            if config_file.endswith('.yaml'):
+                config_file_alt = config_file[:-5] + '.yml'
+            elif config_file.endswith('.yml'):
+                config_file_alt = config_file[:-4] + '.yaml'
+            try:
+                with open(config_file_alt, 'r') as file:
+                    config_dict = yaml.safe_load(file)
+                self.config = Config(**config_dict['boosting_tree'])
+            except Exception as e2:
+                raise ValueError(f"Error reading config file: {e2}") from e2
 
         # load data
         trainfile = self.config.trainfile
