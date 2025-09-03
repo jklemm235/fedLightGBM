@@ -11,7 +11,7 @@ class InitialState(AppState):
         # We declare that 'terminal' state is accessible from the 'initial' state.
 
     def run(self):
-        clients = self.clients()
+        clients = self.clients
         num_clients = len(clients)
         client = FederatedLightGBMClient(config_file="config.yaml",
                                          num_clients=num_clients)
@@ -26,4 +26,3 @@ class InitialState(AppState):
             local_preds.to_csv("predictions_local_model.csv")
         # TODO: implement the ensembling aka the whole fed learning logic
         return 'terminal'
-
