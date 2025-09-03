@@ -34,6 +34,7 @@ class Config:
                  mode: str = "classification") -> None:
         self.trainfile = trainfile
         self.testfile = testfile
+        print(f"Got this input: {trainfile}, {testfile}, {input_path}")
         if input_path is not None:
             self.trainfile = os.path.join(input_path, trainfile)
             if testfile:
