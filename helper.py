@@ -1,4 +1,5 @@
 from typing import Optional, Union
+import os
 
 class Config:
     """Configuration for training/evaluation.
@@ -23,6 +24,7 @@ class Config:
     def __init__(self,
                  trainfile: str,
                  label_column: str,
+                 input_path: Optional[str] = None,
                  testfile: Optional[str] = None,
                  separator: str = ',',
                  id_column: Optional[Union[str, int]] = None,
@@ -30,6 +32,10 @@ class Config:
                  mode: str = "classification") -> None:
         self.trainfile = trainfile
         self.testfile = testfile
+        if input_path is not None:
+            self.trainfile = os.path.join(input_path, trainfile)
+            if testfile:
+                self.testfile = os.path.join(input_path, testfile)
         self.separator = separator
         self.label_column = label_column
         self.id_column = id_column

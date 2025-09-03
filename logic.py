@@ -1,3 +1,6 @@
+# pylint: disable=WO718
+# WO718 -> too broad exception
+
 import math
 from typing import Optional, Tuple, Dict, List
 
@@ -11,15 +14,15 @@ from sklearn.metrics import accuracy_score, precision_recall_fscore_support, mea
 from helper import Config, Metrics
 
 class FederatedLightGBMClient:
-    def __init__(self, config_file: str, num_clients: int):
+    def __init__(self, config_file: str, num_clients: int, input_path: Optional[str] = None):
         print(f"Initializing lightGBM Client for training with {num_clients} clients")
         self.num_clients = num_clients
         # Load config
         try:
             with open(config_file, 'r') as file:
                 config_dict = yaml.safe_load(file)
-            self.config = Config(**config_dict['boosting_tree'])
-        except Exception as e:
+            self.config = Config(input_path = input_path, **config_dict['boosting_tree'])
+        except Exception:
             # try to open with .yml if it was .yaml and reverse
             config_file_alt = ""
             if config_file.endswith('.yaml'):
@@ -29,9 +32,9 @@ class FederatedLightGBMClient:
             try:
                 with open(config_file_alt, 'r') as file:
                     config_dict = yaml.safe_load(file)
-                self.config = Config(**config_dict['boosting_tree'])
-            except Exception as e2:
-                raise ValueError(f"Error reading config file: {e2}") from e2
+                self.config = Config(input_path = input_path, **config_dict['boosting_tree'])
+            except Exception as e:
+                raise ValueError(f"Error reading config file: {e}") from e
 
         # load data
         trainfile = self.config.trainfile

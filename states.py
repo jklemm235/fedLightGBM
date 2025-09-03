@@ -14,9 +14,11 @@ class InitialState(AppState):
     def run(self):
         clients = self.clients
         num_clients = len(clients)
-        config_path = os.path.join("mnt", "input", "config.yml")
+        input_path = os.path.join("mnt", "input")
+        config_path = os.path.join(input_path, "config.yml")
         client = FederatedLightGBMClient(config_file=config_path,
-                                         num_clients=num_clients)
+                                         num_clients=num_clients,
+                                         input_path=input_path)
         local_preds = None
         if client.test_data is not None:
             local_preds = client.predict(data=client.test_data,
