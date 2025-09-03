@@ -14,7 +14,7 @@ class Config:
     """
     trainfile: str
     testfile: Optional[str] = None
-    seperator: str = ','
+    separator: str = ','
     label_column: str = 'label'
     id_column: Optional[str | int] = None
     num_estimator: int = 100
@@ -23,14 +23,14 @@ class Config:
     def __init__(self,
                  trainfile: str,
                  testfile: str,
-                 seperator: str = ',',
+                 separator: str = ',',
                  label_column: str = 'label',
                  id_column: Optional[str] = None,
                  num_estimator: int = 100,
                  mode: str = "classification") -> None:
         self.trainfile = trainfile
         self.testfile = testfile
-        self.seperator = seperator
+        self.separator = separator
         self.label_column = label_column
         self.id_column = id_column
         self.num_estimator = num_estimator

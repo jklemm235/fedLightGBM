@@ -125,7 +125,7 @@ class FederatedLightGBMClient:
 
 
     def read_csv_helper(self, csv_file: str) -> Tuple[pd.DataFrame, pd.Series]:
-        seperator = self.config.seperator
+        seperator = self.config.separator
         label_column = self.config.label_column
         id_column = self.config.id_column
         data = pd.read_csv(
