@@ -1,5 +1,6 @@
 from FeatureCloud.app.engine.app import AppState, app_state
 from logic import FederatedLightGBMClient
+import os
 
 # FeatureCloud requires that apps define the at least the 'initial' state.
 # This state is executed after the app instance is started.
@@ -13,7 +14,8 @@ class InitialState(AppState):
     def run(self):
         clients = self.clients
         num_clients = len(clients)
-        client = FederatedLightGBMClient(config_file="config.yaml",
+        config_path = os.path.join("mnt", "input", "config.yml")
+        client = FederatedLightGBMClient(config_file=config_path,
                                          num_clients=num_clients)
         local_preds = None
         if client.test_data is not None:
