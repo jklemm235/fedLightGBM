@@ -43,5 +43,17 @@ class InitialState(AppState):
             f.write(metrics_json)
         client.local_model.save_model("local_model.txt")
 
+        # TODO: rmv: this is just for testing the federated sending itself first
+        self.send_data_to_coordinator(data={"metrics": metrics.to_dict()})
+        print(f"Sent local metrics to coordinator: {metrics.to_dict()}")
+        if self.is_coordinator:
+            all_metrics = self.gather_data()
+            print(f"Received metrics from clients: {all_metrics}")
+            for metric in all_metrics:
+                print(f"Client metric: {metric}")
+            self.broadcast_data(data="broadcast_test")
+        broadcast_msg = self.await_data()
+        print(f"Received broadcast message from coordinator: {broadcast_msg}")
+        # TODO: rmv end
         # TODO: implement the ensembling aka the whole fed learning logic
         return 'terminal'
